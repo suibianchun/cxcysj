@@ -5,32 +5,15 @@
 #include <windows.h>
 #define th_num 16
 #define m_bits 10000000
-
-
-static void dump_buf_32(uint32_t* buf, uint32_t len)
-{
-	uint32_t i;
-	printf("buf:");
-
-	for (i = 0; i < len; i++) {
-		printf("%s%02x%s", i % 16 == 0 ? "\r\n\t" : " ",
-			buf[i],
-			i == len - 1 ? "\r\n" : "");
-	}
-}
-
-static void dump_buf_8(uint8_t* buf, uint32_t len)
-{
-	uint32_t i;
-	printf("buf:");
-
-	for (i = 0; i < len; i++) {
-		printf("%s%02x%s", i % 16 == 0 ? "\r\n\t" : " ",
-			buf[i],
-			i == len - 1 ? "\r\n" : "");
-	}
-}
-
+static void dump_buf_32(uint32_t* buf, uint32_t len);
+static void dump_buf_8(uint8_t* buf, uint32_t len);
+uint32_t move(uint32_t data, int length);
+uint32_t t(uint32_t input);
+void t_1(uint32_t* input, uint32_t* rk);
+void f(uint32_t* input, uint32_t rk, uint32_t* output);
+void SM4(uint32_t* rk, uint32_t* plain, int size);
+void SM4_unrolling(uint32_t* rk, uint32_t* plain, int size);
+void SM4_multhread(uint32_t* rk, uint32_t* plain, int size, int times);
 
 const uint32_t fk[4] = {
 	0xa3b1bac6,
@@ -70,6 +53,77 @@ const uint8_t s_box[256] = {
 	0x18,0xf0,0x7d,0xec,0x3a,0xdc,0x4d,0x20,0x79,0xee,0x5f,0x3e,0xd7,0xcb,0x39,0x48
 };
 
+
+
+uint32_t key[4] = {
+   0x01234567,0x89abcdef,
+   0xfedcba98,0x76543210
+};
+
+
+
+int main()
+{
+	uint32_t* plain = (uint32_t*)malloc(sizeof(int) * m_bits);
+	if (plain == NULL) {
+		printf("内存分配不成功！\n");
+	}
+	else {
+		for (int i = 0; i < m_bits; ++i)
+		{
+			plain[i] = rand();
+		}
+	}
+	uint32_t rk[32];
+	t_1(key, rk);
+
+
+	SM4(rk, plain, m_bits);
+
+	SM4_unrolling(rk, plain, m_bits);
+
+	std::thread th[th_num];
+	LARGE_INTEGER BegainTime;
+	LARGE_INTEGER EndTime;
+	LARGE_INTEGER Frequency;
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&BegainTime);
+	for (int j = 0; j < th_num; j++)
+	{
+		th[j] = std::thread(SM4_multhread, rk, plain, m_bits, 4 * j);
+	}
+	for (int i = 0; i < th_num; i++)
+	{
+		th[i].join();
+	}
+	QueryPerformanceCounter(&EndTime);
+	double time = (double)(EndTime.QuadPart - BegainTime.QuadPart) / Frequency.QuadPart;
+	printf("pthread创建线程用时： %f seconds\n", time);
+}
+
+static void dump_buf_32(uint32_t* buf, uint32_t len)
+{
+	uint32_t i;
+	printf("buf:");
+
+	for (i = 0; i < len; i++) {
+		printf("%s%02x%s", i % 16 == 0 ? "\r\n\t" : " ",
+			buf[i],
+			i == len - 1 ? "\r\n" : "");
+	}
+}
+
+static void dump_buf_8(uint8_t* buf, uint32_t len)
+{
+	uint32_t i;
+	printf("buf:");
+
+	for (i = 0; i < len; i++) {
+		printf("%s%02x%s", i % 16 == 0 ? "\r\n\t" : " ",
+			buf[i],
+			i == len - 1 ? "\r\n" : "");
+	}
+}
 
 uint32_t move(uint32_t data, int length)
 {
@@ -123,16 +177,15 @@ void f(uint32_t* input, uint32_t rk, uint32_t* output)
 	output[3] = input[0] ^ t(input[1] ^ input[2] ^ input[3] ^ rk);
 }
 
-
-uint32_t key[4] = {
-   0x01234567,0x89abcdef,
-   0xfedcba98,0x76543210
-};
-
-void SM4_multhread(uint32_t* rk, uint32_t* plain, int size, int times) {
+void SM4(uint32_t* rk, uint32_t* plain, int size) {
+	LARGE_INTEGER BegainTime;
+	LARGE_INTEGER EndTime;
+	LARGE_INTEGER Frequency;
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&BegainTime);
 	uint32_t output[4];
 	uint32_t temp[4];
-	for (int i = times; i < size; i += 4 * th_num) {
+	for (int i = 0; i < size; i += 4) {
 		f(plain + i, rk[0], output);
 		for (int i = 1; i < 32; i++)
 		{
@@ -150,6 +203,9 @@ void SM4_multhread(uint32_t* rk, uint32_t* plain, int size, int times) {
 		output[2] = temp2;
 		output[3] = temp1;
 	}
+	QueryPerformanceCounter(&EndTime);
+	double time = (double)(EndTime.QuadPart - BegainTime.QuadPart) / Frequency.QuadPart;
+	printf("原始SM4用时： %f seconds\n", time);
 }
 
 void SM4_unrolling(uint32_t* rk, uint32_t* plain, int size) {
@@ -193,15 +249,10 @@ void SM4_unrolling(uint32_t* rk, uint32_t* plain, int size) {
 	printf("SM4+两次循环展开用时： %f seconds\n", time);
 }
 
-void SM4(uint32_t* rk, uint32_t* plain, int size) {
-	LARGE_INTEGER BegainTime;
-	LARGE_INTEGER EndTime;
-	LARGE_INTEGER Frequency;
-	QueryPerformanceFrequency(&Frequency);
-	QueryPerformanceCounter(&BegainTime);
+void SM4_multhread(uint32_t* rk, uint32_t* plain, int size, int times) {
 	uint32_t output[4];
 	uint32_t temp[4];
-	for (int i = 0; i < size; i += 4) {
+	for (int i = times; i < size; i += 4 * th_num) {
 		f(plain + i, rk[0], output);
 		for (int i = 1; i < 32; i++)
 		{
@@ -219,49 +270,5 @@ void SM4(uint32_t* rk, uint32_t* plain, int size) {
 		output[2] = temp2;
 		output[3] = temp1;
 	}
-	QueryPerformanceCounter(&EndTime);
-	double time = (double)(EndTime.QuadPart - BegainTime.QuadPart) / Frequency.QuadPart;
-	printf("原始SM4用时： %f seconds\n", time);
-}
-
-
-
-int main()
-{
-	uint32_t* plain = (uint32_t*)malloc(sizeof(int) * m_bits);
-	if (plain == NULL) {
-		printf("内存分配不成功！\n");
-	}
-	else {
-		for (int i = 0; i < m_bits; ++i)
-		{
-			plain[i] = rand();
-		}
-	}
-	uint32_t rk[32];
-	t_1(key, rk);
-
-
-	SM4(rk, plain, m_bits);
-
-	SM4_unrolling(rk, plain, m_bits);
-
-	std::thread th[th_num];
-	LARGE_INTEGER BegainTime;
-	LARGE_INTEGER EndTime;
-	LARGE_INTEGER Frequency;
-	QueryPerformanceFrequency(&Frequency);
-	QueryPerformanceCounter(&BegainTime);
-	for (int j = 0; j < th_num; j++)
-	{
-		th[j] = std::thread(SM4_multhread, rk, plain, m_bits, 4 * j);
-	}
-	for (int i = 0; i < th_num; i++)
-	{
-		th[i].join();
-	}
-	QueryPerformanceCounter(&EndTime);
-	double time = (double)(EndTime.QuadPart - BegainTime.QuadPart) / Frequency.QuadPart;
-	printf("pthread创建线程用时： %f seconds\n", time);
 }
 
