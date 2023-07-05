@@ -29,7 +29,7 @@ if __name__ == '__main__':
     n = 8
     str1, hash1, str2, running_time = find_collision(n)
 
-    print(f"找到 {n*4} 比特的碰撞")
+    print(f"找到{n*4}比特的碰撞")
     print("第一个字符串为:", str1)
     print("对应的哈希值为：",hash1)
     print("第二个字符串为:", str2)
