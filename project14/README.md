@@ -24,7 +24,20 @@ SM2算法基于椭圆曲线密码体制，比传统的RSA或DSA算法具有更�
 
 ![image](https://github.com/suibianchun/cxcysj/assets/138552183/217014e3-7ee7-4562-b569-e5c040e9ceae)
 
+**代码主要思路**
+
+定义函数SM2_Encrypt和SM2_Decrypt，使用SM2算法加密和解密密钥。
+
+定义函数PGP_Encrypt和PGP_Decrypt，用于使用SM4算法（CBC模式）加密和解密消息，并使用SM2加密和解密会话密钥。
+
+定义会话密钥session_key和消息message。
+
+调用PGP_Encrypt函数使用会话密钥将消息加密，返回加密后的值enc_value和加密后的会话密钥enc_key。
+
+调用PGP_Decrypt函数解密加密后的值，并获取解密后的消息和会话密钥。
+
 **运行结果**
+
 
 ![image](https://github.com/suibianchun/cxcysj/assets/138552183/ba4bc4c4-7e14-40f1-9b13-a6db09c0cef2)
 
