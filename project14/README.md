@@ -18,5 +18,18 @@ SM2算法基于椭圆曲线密码体制，比传统的RSA或DSA算法具有更�
 
 解密时先使用SM2解密求得会话密钥，再通过SM4和会话密钥求解原消息。
 
+在推荐参数的基础下，生成SM2的公私钥：
+
+![image](https://github.com/suibianchun/cxcysj/assets/138552183/c6f17a41-2702-4c60-bc40-ac148ad6874d)
+
+![image](https://github.com/suibianchun/cxcysj/assets/138552183/217014e3-7ee7-4562-b569-e5c040e9ceae)
+
+**运行结果**
+
+![image](https://github.com/suibianchun/cxcysj/assets/138552183/ddf9b8f2-3fb8-478b-b65a-dc988942bc5f)
+
+
+
+
 
 
