@@ -26,7 +26,8 @@ SM2算法基于椭圆曲线密码体制，比传统的RSA或DSA算法具有更�
 
 **运行结果**
 
-![image](https://github.com/suibianchun/cxcysj/assets/138552183/ddf9b8f2-3fb8-478b-b65a-dc988942bc5f)
+![image](https://github.com/suibianchun/cxcysj/assets/138552183/ba4bc4c4-7e14-40f1-9b13-a6db09c0cef2)
+
 
 
 
