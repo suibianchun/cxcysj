@@ -88,8 +88,8 @@ def verify_len_extension_attack(num_block, IV2, add):
         return None, None, "攻击失败"
 
 if __name__ == '__main__':
-    IV="684294984984AEDFBFCDEAD6544EF7DCBAEDF74789AEDFD1167AEDCFDEACBD64"
-    msg_hash="cf1410123c9efb2035387a266a9de0649609d25bddaa1b55797d05e08a8a85af"   #哈希值
+    IV="7380166f4914b2b9172442d7da8a0600a96f30bc163138aae38dee4db0fb0e4e" #SM3的固定IV
+    msg_hash="7e0d11e6455eaabda193edefcbc8f7a5ae68193e5ec4d27aa2fad0b11c8e5245"   #哈希值
     res = verify_len_extension_attack(1, msg_hash, "20230708")
     if res is not None:
         sm3_result, sm3_len_ex_result, status = res
@@ -98,3 +98,7 @@ if __name__ == '__main__':
         print(status)
     else:
         print("攻击失败")
+
+
+
+
