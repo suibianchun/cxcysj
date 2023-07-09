@@ -25,5 +25,10 @@
 
 ![image](https://github.com/suibianchun/cxcysj/assets/138552183/4e1c4c20-0369-4793-8cf2-815db6685277)
 
+**24-bit：**
+
+![image](https://github.com/suibianchun/cxcysj/assets/138552183/bdaa43f2-eb75-4f94-9a1c-1146fa8427f6)
+
+
 
 
