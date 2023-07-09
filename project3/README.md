@@ -53,7 +53,8 @@ V 是一个有效的状态向量。
 
 **运行结果**
 
-![image](https://github.com/suibianchun/cxcysj/assets/138552183/72693fe9-7928-43ab-975e-bea970e16299)
+![image](https://github.com/suibianchun/cxcysj/assets/138552183/a8029491-f24e-4c30-b388-e904cb24c006)
+
 
 
 
