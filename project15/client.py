@@ -21,7 +21,6 @@ def send_Q1_e(client):
     Z = server_ID + client_ID
     msg = "jzh_sdu"
     print("消息为:", msg)
-    print("*"*80)
     m = Z + msg
     e = sm3.sm3_hash(func.bytes_to_list(bytes(m, encoding='utf-8')))
     k1 = secrets.randbelow(N)
@@ -71,5 +70,3 @@ if __name__ == '__main__':
     print("Client端：")
     print()
     contact()
-    print("*"*80)
-
