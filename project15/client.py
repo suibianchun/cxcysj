@@ -6,7 +6,7 @@ from SM2 import *
 # 生成私钥d1与P1 = d^-1 * G
 def gen_d_P():
     d1 = secrets.randbelow(N)
-    P1 = EC_multi(inv(d1, N), G)
+    P1 = ECnp(inv(d1, N), G)
     return d1, P1
 
 def receive_P(client):
@@ -24,7 +24,7 @@ def send_Q1_e(client):
     m = Z + msg
     e = sm3.sm3_hash(func.bytes_to_list(bytes(m, encoding='utf-8')))
     k1 = secrets.randbelow(N)
-    Q1 = EC_multi(k1, G)
+    Q1 = ECnp(k1, G)
     data = f"{Q1[0]},{Q1[1]};{e}"
     client.sendto(data.encode(), ("127.0.0.1", 8090))
     return k1
