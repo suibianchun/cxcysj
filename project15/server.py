@@ -5,7 +5,7 @@ from SM2 import *
 # 生成私钥d以及公钥P
 def gen_d_P(P1):
     d = secrets.randbelow(N)
-    P = EC_sub(EC_multi(inv(d, N), P1), G)
+    P = EC_sub(ECnp(inv(d, N), P1), G)
     return d, P
 
 def receive_P1(server):
@@ -19,8 +19,8 @@ def comp_r_and_s2_3(d2, Q1, e):
     e = int(e, 16)
     k2 = secrets.randbelow(N)
     k3 = secrets.randbelow(N)
-    Q2 = EC_multi(k2, G)
-    x1, y1 = EC_add(EC_multi(k3, Q1), Q2)
+    Q2 = ECnp(k2, G)
+    x1, y1 = EC_add(ECnp(k3, Q1), Q2)
     r = (x1 + e) % N
     if r == 0:
         return "Wrong: r = 0!"
@@ -61,4 +61,3 @@ if __name__ == '__main__':
     print("Server端：")
     print()
     contact()
-
