@@ -54,6 +54,10 @@ Visual Studio 2019；PyCharm Community Edition 2022.3
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project11
 
+**Project12: verify the above pitfalls with proof-of-concept code**
+
+链接：https://github.com/suibianchun/cxcysj/tree/main/project12
+
 **Project13: Implement the above ECMH scheme**
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project13
