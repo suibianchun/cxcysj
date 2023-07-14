@@ -42,6 +42,10 @@ Visual Studio 2019；PyCharm Community Edition 2022.3
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project5
 
+**Project6: impl this protocol with actual network communication8**
+
+链接：https://github.com/suibianchun/cxcysj/tree/main/project6
+
 **Project9: AES / SM4 software implementation**
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project9
