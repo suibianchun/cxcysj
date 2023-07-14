@@ -86,6 +86,14 @@ Visual Studio 2019；PyCharm Community Edition 2022.3
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project18
 
+**Project19: forge a signature to pretend that you are Satoshi**
+
+链接：https://github.com/suibianchun/cxcysj/tree/main/project19
+
+**Project21: Schnorr Bacth**
+
+链接：https://github.com/suibianchun/cxcysj/tree/main/project21
+
 **Project22: research report on MPT**
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project22
