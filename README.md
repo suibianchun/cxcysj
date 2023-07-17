@@ -90,6 +90,10 @@ Visual Studio 2019；PyCharm Community Edition 2022.3
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project19
 
+**Project20: ECMH PoC**
+
+与project13重复
+
 **Project21: Schnorr Bacth**
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project21
