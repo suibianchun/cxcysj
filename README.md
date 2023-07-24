@@ -46,6 +46,10 @@ Visual Studio 2019；PyCharm Community Edition 2022.3
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project6
 
+**Project8: AES impl with ARM instruction**
+
+链接：https://github.com/suibianchun/cxcysj/tree/main/project8
+
 **Project9: AES / SM4 software implementation**
 
 链接：https://github.com/suibianchun/cxcysj/tree/main/project9
